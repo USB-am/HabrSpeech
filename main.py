@@ -46,7 +46,7 @@ def get_text(soup: str) -> str:
 	return text
 
 
-def main(url: str):
+def main(url: str, run_file: bool=True):
 	engine = pyttsx3.init()
 	html = get_html(url, headers=_HEADERS)
 	soup = get_soup(html)
@@ -54,18 +54,27 @@ def main(url: str):
 	reg = re.compile('[^a-zA-Zа-яА-Я1-9. ]')
 	h1 = reg.sub('', text_for_synth.split('\n')[0])
 
+	files_dir = os.path.join(BASE_DIR, 'files')
+	if not os.path.exists(files_dir):
+		os.makedirs(files_dir)
+
 	filename = f'{str(int(time.time()*1000))} {h1}.wav'
-	path = os.path.join(BASE_DIR, 'files', filename)
+	path = os.path.join(files_dir, filename)
 	engine.save_to_file(text=text_for_synth, filename=path)
 	engine.runAndWait()
+
+	if run_file:
+		print(f'{path=}')
+		os.system(f'"{path}"')
 
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-u', '--url', default=None)
+	parser.add_argument('-r', '--run', default=True)
 
 	args = parser.parse_args()
 	if not args.url:
-		args.url = 'https://habr.com/ru/articles/850298/'
+		args.url = 'https://habr.com/ru/articles/1/'
 
-	main(args.url)
+	main(url=args.url, run_file=args.run)
