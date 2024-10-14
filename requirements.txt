@@ -1,0 +1,12 @@
+beautifulsoup4==4.12.3
+bs4==0.0.2
+certifi==2024.8.30
+charset-normalizer==3.4.0
+comtypes==1.4.7
+idna==3.10
+pypiwin32==223
+pyttsx3==2.98
+pywin32==308
+requests==2.32.3
+soupsieve==2.6
+urllib3==2.2.3
